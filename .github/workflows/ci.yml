@@ -1,0 +1,29 @@
+name: CI — CLI
+
+on:
+  pull_request:
+    branches: [ main ]
+  push:
+    branches: [ main ]
+
+jobs:
+  lint-and-test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install dependencies
+        run: pip install -e ".[dev]" 2>/dev/null || pip install -e . && pip install ruff
+          pytest
+
+      - name: Lint with ruff
+        run: ruff check insighta/
+
+      - name: Verify CLI entry point
+        run: insighta --help
