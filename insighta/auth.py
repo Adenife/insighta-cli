@@ -172,7 +172,7 @@ def logout_cmd():
 def whoami_cmd():
     from . import api
 
-    data = api.request("GET", "/auth/me")
+    data = api.request("GET", "/api/users/me")
     user = data.get("data", {})
 
     console.print(
